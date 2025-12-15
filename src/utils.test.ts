@@ -151,12 +151,12 @@ describe('splitNumber', () => {
     { value: '-23e-3', expected: { sign: '-', digits: '23', exponent: -2 } },
     { value: '99.99', expected: { sign: '', digits: '9999', exponent: 1 } },
     { value: '-01200', expected: { sign: '-', digits: '12', exponent: 3 } }
-  ])(
-    'splitNumber($value) -> {sign: $expected.sign, digits: $expected.digits, exponent: $expected.exponent}',
-    ({ value, expected }) => {
-      expect(splitNumber(value)).toEqual(expected)
-    }
-  )
+  ])('splitNumber($value) -> {sign: $expected.sign, digits: $expected.digits, exponent: $expected.exponent}', ({
+    value,
+    expected
+  }) => {
+    expect(splitNumber(value)).toEqual(expected)
+  })
 
   test('should throw an error when splitting invalid input', () => {
     expect(() => splitNumber('')).toThrow('Invalid number')
