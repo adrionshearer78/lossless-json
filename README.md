@@ -160,12 +160,12 @@ import { parse, isSafeNumber } from 'lossless-json'
 
 const options = {
   parseNumber: (value) => {
-      if (!isSafeNumber(value)) {
-        throw new Error(`Cannot safely convert value '${value}' into a number`)
-      }
-
-      return parseFloat(value)
+    if (!isSafeNumber(value)) {
+      throw new Error(`Cannot safely convert value '${value}' into a number`)
     }
+
+    return parseFloat(value)
+  }
 }
 
 // will parse with success if all values can be represented with a number
