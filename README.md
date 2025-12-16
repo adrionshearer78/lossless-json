@@ -465,7 +465,7 @@ Similar libraries:
 - https://github.com/Ivan-Korolenko/json-with-bigint
 - https://github.com/nicolasparada/js-json-bigint
 - https://github.com/epoberezkin/json-source-map
-- Or: [#bigint-support-using-native-jsonparse-and-jsonstringify](use native `JSON.parse` and `JSON.stringify`)
+- Or: [use native `JSON.parse` and `JSON.stringify`](#bigint-support-using-native-jsonparse-and-jsonstringify)
 
 ## Test
 
