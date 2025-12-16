@@ -107,6 +107,50 @@ const json = parse(text, null, options)
 
 You can adjust the logic to your liking, using utility functions like `isInteger`, `isNumber`, `isSafeNumber`. The number parser shown above is included in the library and is named `parseNumberAndBigInt`.
 
+### BigInt support using native `JSON.parse` and `JSON.stringify`
+
+Since some time, the reviver callback of the native `JSON.parse` function has a new parameter `context.source`. This new parameter allows to parse numeric values into any data type like `BigInt` or `BigNumber`, similar to the `numberParser` callback of `lossless-json`. This makes a special library like `lossless-json` redundant in such cases.
+
+To stringify `BigInt` values, it is possible to [monkey patching a method `BigInt.prototype.toJSON`](https://github.com/GoogleChromeLabs/jsbi/issues/30#issuecomment-1006088574).
+
+> IMPORTANT: since `context.source` is quite a new JavaScript feature, it is important to check browser compatibility, see [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON#browser_compatibility) or [caniuse.com](https://caniuse.com/?search=context.source).
+
+Here is a minimal example of parsing and stringifing data with support for `BigInt` using the native `JSON.parse` and `JSON.stringify`. A similar solution can be worked out for other data types.
+
+```js
+function parseWithBigInt(text) {
+  const intRegex = /^\d+$/
+
+  return JSON.parse(text, (_key, value, context) => {
+    return intRegex.test(context.source)
+        ? BigInt(context.source) 
+        : value
+    })
+}
+
+function stringifyWithBigInt(json) {
+  const original = BigInt.prototype.toJSON
+  BigInt.prototype.toJSON = function() {
+    return this.toString()
+  }
+
+  const str = JSON.stringify(json)
+
+  if (original) {
+    BigInt.prototype.toJSON = original
+  }
+
+  return str
+}
+
+const text = '{"number":1.23,"long":9123372036854000123}'
+
+const data = parseWithBigInt(text)
+const stringified = stringifyWithBigInt(data)
+console.log(stringified)
+// '{"number":1.23,"long":"9123372036854000123"}'
+```
+
 ### Validate safe numbers
 
 If you want parse a json string into an object with regular numbers, but want to validate that no numeric information is lost, you write your own number parser and use `isSafeNumber` to validate the numbers:
@@ -421,6 +465,7 @@ Similar libraries:
 - https://github.com/Ivan-Korolenko/json-with-bigint
 - https://github.com/nicolasparada/js-json-bigint
 - https://github.com/epoberezkin/json-source-map
+- Or: [#bigint-support-using-native-jsonparse-and-jsonstringify](use native `JSON.parse` and `JSON.stringify`)
 
 ## Test
 
