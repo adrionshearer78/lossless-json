@@ -460,7 +460,7 @@ new LosslessNumber(value: number | string) : LosslessNumber
 
 Similar libraries:
 
-- https://www.npmjs.com/package/safe-stable-stringify
+- https://github.com/BridgeAR/safe-stable-stringify
 - https://github.com/nicolasparada/js-json-bigint
 - https://github.com/Ivan-Korolenko/json-with-bigint
 - https://github.com/sidorares/json-bigint (not actively maintained)
