@@ -122,7 +122,7 @@ function parseWithBigInt(text) {
   const intRegex = /^\d+$/
 
   return JSON.parse(text, (_key, value, context) => {
-    return intRegex.test(context.source)
+    return typeof value === 'number' && intRegex.test(context.source)
         ? BigInt(context.source) 
         : value
     })
