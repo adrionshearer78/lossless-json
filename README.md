@@ -460,10 +460,11 @@ new LosslessNumber(value: number | string) : LosslessNumber
 
 Similar libraries:
 
-- https://github.com/jawj/json-custom-numbers
-- https://github.com/sidorares/json-bigint
-- https://github.com/Ivan-Korolenko/json-with-bigint
+- https://www.npmjs.com/package/safe-stable-stringify
 - https://github.com/nicolasparada/js-json-bigint
+- https://github.com/Ivan-Korolenko/json-with-bigint
+- https://github.com/sidorares/json-bigint (not actively maintained)
+- https://github.com/jawj/json-custom-numbers
 - https://github.com/epoberezkin/json-source-map
 - Or: [use native `JSON.parse` and `JSON.stringify`](#bigint-support-using-native-jsonparse-and-jsonstringify)
 
