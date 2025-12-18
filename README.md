@@ -119,13 +119,15 @@ Here is a minimal example of parsing and stringifing data with support for `BigI
 
 ```js
 function parseWithBigInt(text) {
-  const intRegex = /^\d+$/
+  const intRegex = /^-?\d+$/
 
   return JSON.parse(text, (_key, value, context) => {
-    return typeof value === 'number' && intRegex.test(context.source)
-        ? BigInt(context.source) 
-        : value
-    })
+    const isBigInt = typeof value === 'number' &&
+      (value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) &&
+      intRegex.test(context.source)
+
+    return isBigInt ? BigInt(context.source) : value
+  })
 }
 
 function stringifyWithBigInt(json) {
