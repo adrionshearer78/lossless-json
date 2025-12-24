@@ -114,7 +114,7 @@ Since some time, the reviver callback of the native `JSON.parse` function has a 
 
 > IMPORTANT: since `context.source` is quite a new JavaScript feature, it is important to check browser compatibility, see [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON#browser_compatibility) or [caniuse.com](https://caniuse.com/?search=context.source).
 
-Stringfying `BigInt` values is not possible, unless you want to serialize them into a string with quotes. That is possible by [monkey patching a method `BigInt.prototype.toJSON`](https://github.com/GoogleChromeLabs/jsbi/issues/30#issuecomment-1006088574). However, when parsing this data again, it is not possible to know whether a string containing an integer number was intended to be a string or a bigint.
+Stringifying `BigInt` values is not possible, unless you want to serialize them into a string with quotes. That is possible by [monkey patching a method `BigInt.prototype.toJSON`](https://github.com/GoogleChromeLabs/jsbi/issues/30#issuecomment-1006088574). However, when parsing this data again, it is not possible to know whether a string containing an integer number was intended to be a string or a bigint.
 
 Here is a minimal example of parsing data with support for `BigInt` using the native `JSON.parse`. A similar solution can be worked out for other data types.
 
