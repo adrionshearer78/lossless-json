@@ -9,10 +9,17 @@ const json = JSON.parse(text)
 const losslessJSON = parse(text)
 
 assert.deepStrictEqual(JSON.parse(stringify(losslessJSON)), json)
+assert.deepStrictEqual(parseWithBigInt(text), json)
+assert.deepStrictEqual(parseWithBigInt('{"number":1.23,"int":42,"bigint":9123372036854000123}'), {
+  number: 1.23,
+  int: 42,
+  bigint: 9123372036854000123n
+})
 
 const bench = new Bench({ time: 100 })
   .add('        JSON.parse    ', () => JSON.parse(text))
   .add('LosslessJSON.parse    ', () => parse(text))
+  .add('parseWithBigInt       ', () => parseWithBigInt(text))
   .add('        JSON.stringify', () => JSON.stringify(json))
   .add('LosslessJSON.stringify', () => stringify(losslessJSON))
 
@@ -50,4 +57,17 @@ function generateText(itemCount = 100) {
   })
 
   return JSON.stringify(json, null, 2)
+}
+
+function parseWithBigInt(text) {
+  const intRegex = /^\d+$/
+
+  return JSON.parse(text, (_key, value, context) => {
+    const isBigInt =
+      typeof value === 'number' &&
+      (value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) &&
+      intRegex.test(context.source)
+
+    return isBigInt ? BigInt(context.source) : value
+  })
 }
